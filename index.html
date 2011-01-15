@@ -2,9 +2,26 @@
   <head>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
     <script type="text/javascript" src="edge.js"></script>
+    <script type="text/javascript">
+      $(function (){
+      var width = 256;
+      var height = 256;
+      var source = $("#source").get(0).getContext('2d');
+      var dest = $("#dest").get(0).getContext('2d');
+      var img = new Image();
+      img.src = "./images/lena.png";
+      img.onload = function() {
+        source.drawImage(img, 0, 0);
+        $("#source").click(function (){
+          edgeDetect(source, dest, width, height);
+          return false;
+        });
+      };
+      })
+    </script>
   </head>
   <body>
-    <canvas id="original" width="256" height="256"></canvas>
-    <canvas id="convert" width="256" height="256"></canvas>
+    <canvas id="source" width="256" height="256"></canvas>
+    <canvas id="dest" width="256" height="256"></canvas>
   </body>
 </html>

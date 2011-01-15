@@ -31,26 +31,12 @@ setPixel = (ctx, x, y, r, g, b, a) ->
   ctx.putImageData(pixelImage, x, y)
 
 
-
-
-width = 256
-height = 256
-original = $("#original").get(0)
-ctx_original = original.getContext('2d')
-convert = $("#convert").get(0)
-ctx_convert = convert.getContext('2d')
-#img = new Image(width, height)
-img = new Image()
-img.src = "./images/lena.png"
-img.onload = ->
-  ctx_original.drawImage(img, 0, 0)
-
-$("#original").click ->
+edgeDetect = (source, dest, width, height) ->
   grayImage = new Array(width * height)
 
   for y in [0...height]
     for x in [0...width]
-      [r, g, b] = getPixel(ctx_original, x, y)
+      [r, g, b] = getPixel(source, x, y)
       grayImage[y * width + x] = toGrayscale(r, g, b)
 
   filter = [
@@ -64,4 +50,5 @@ $("#original").click ->
   for y in [0...height]
     for x in [0...width]
       I = resultImage[y * width + x]
-      setPixel(ctx_convert, x, y, I, I, I, 255)
+      setPixel(dest, x, y, I, I, I, 255)
+
