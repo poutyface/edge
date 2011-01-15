@@ -1,1 +1,1 @@
-![Alt text](./images/lena.png)
+![Alt text](images/lena.png)
