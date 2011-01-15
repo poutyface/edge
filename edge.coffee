@@ -13,9 +13,6 @@ SpatialFiltering = (grayImage, height, width, filter, size_f) ->
   to = init
   resultImage = new Array(height * width)
 
-  for k in [0...(height*width)]
-    resultImage[k] = 0
-
   for i in [init...(height - init)]
     for j in [init...(width - init)]
       sum = 0.0
@@ -38,21 +35,22 @@ setPixel = (ctx, x, y, r, g, b, a) ->
 
 width = 256
 height = 256
-canvas = $("#canvas").get(0)
-context = canvas.getContext('2d')
-canvas_to = $("#canvas_to").get(0)
-context_to = canvas_to.getContext('2d')
-img = new Image(width, height)
+original = $("#original").get(0)
+ctx_original = original.getContext('2d')
+convert = $("#convert").get(0)
+ctx_convert = convert.getContext('2d')
+#img = new Image(width, height)
+img = new Image()
 img.src = "./images/lena.png"
 img.onload = ->
-  context.drawImage(img, 0, 0)
+  ctx_original.drawImage(img, 0, 0)
 
-$("#canvas").click ->
+$("#original").click ->
   grayImage = new Array(width * height)
 
   for y in [0...height]
     for x in [0...width]
-      [r, g, b] = getPixel(context, x, y)
+      [r, g, b] = getPixel(ctx_original, x, y)
       grayImage[y * width + x] = toGrayscale(r, g, b)
 
   filter = [
@@ -66,4 +64,4 @@ $("#canvas").click ->
   for y in [0...height]
     for x in [0...width]
       I = resultImage[y * width + x]
-      setPixel(context_to, x, y, I, I, I, 255)
+      setPixel(ctx_convert, x, y, I, I, I, 255)
